@@ -1,10 +1,14 @@
-function gameBoard () {
+function createGameBoard () {
+    //attributes
     let board = [
         [" ", " ", " "],
         [" ", " ", " "],
         [" ", " ", " "]
     ]; 
     let piecesPlaced = 0;
+
+    //methods
+
     function getBoard() {
         //console version
         stringBoard = "Current Round:\n";
@@ -33,7 +37,35 @@ function gameBoard () {
     return {getBoard, printBoard, placePiece};
 }
 
-const demoBoard = gameBoard();
+function createPlayer (playerName, playersPieceType) {
+    //attributes
+    let name = playerName;
+    let pieceType = playersPieceType;
+
+    //methods 
+
+    function getName() {
+        return name;
+    }
+    function changeName(newName) {
+        name = newName;
+    }
+
+    function askToPlacePiece(x,y,board) {
+        let success = board.placePiece(pieceType,x,y);
+        return success;
+    }
+    return {getName, changeName, askToPlacePiece };
+}
+
+//console tests
+const demoBoard = createGameBoard();
+const player1 = createPlayer("August", "X");
+console.log(player1.getName());
+player1.changeName("Bob");
+console.log(player1.getName());
 demoBoard.printBoard();
 demoBoard.placePiece("x", 0,0);
 demoBoard.printBoard();
+
+console.log(player1.askToPlacePiece(1,1, demoBoard));
