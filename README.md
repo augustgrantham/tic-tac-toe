@@ -28,7 +28,7 @@ The gameBoard object will have the following
 #### Attributes 
 
 board = 2D, 3x3 array
-totalPiecesPlaced = integer counter that begins at zero
+piecesPlaced = integer counter that begins at zero
 
 #### Methods
 
@@ -54,10 +54,18 @@ The gameLogic object will contain the following
 
 playersTurn = integer value of 1 or 2, reflective of 2 players.
 winner = null by default, changed by checkForEndOfGame to player.name of winning player.
-
+roundsCount = number of rounds that have occured
 #### Methods
 
 1. checkForEndOfGame: check each row, each column, and spots 1-5-9 and 3-5-7, if any of them add up to 3 of one piece, set winner equal to the winning player name. If the total number of pieces on the board equals 9 and the win condition hasn't been met, it's a tie.
 2. nextTurn(): toggle playersTurn attribute.
-3. playTurn(playersTurn(), x, y): based on which players turn it is, call that players askToPlacePiece() method until it is successful. Than call checkForEndOfGame method, if it returns false call nextTurn(), if it returns true call endGame() method.
+3. playTurn(playersTurn(), x, y): based on which players turn it is, call that players askToPlacePiece() method until it is successful. Than call getBoard() method and checkForEndOfGame method, if it returns false call nextTurn(), if it returns true call endGame() method.
 4. endGame(): display gameLogic.winner.
+
+### displayController object
+
+The displayController object will have the following
+
+#### Methods
+
+printBoard(): take gameBoard.board and print it out.
