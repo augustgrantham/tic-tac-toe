@@ -1,3 +1,4 @@
+//object factories
 function createGameBoard () {
     //attributes
     let board = [
@@ -58,10 +59,42 @@ function createPlayer (playerName, playersPieceType) {
     return {getName, changeName, askToPlacePiece };
 }
 
-//console tests
+function createGameLogic() {
+    //attributes
+    let playersTurn = 1;
+    let winner = null;
+    let roundsCount = 1;
+
+    //methods 
+
+    function checkForEndOfGame() {
+        let test = 3;
+    }
+
+    function nextTurn() {
+        if(this.playersTurn == 1) {
+            this.playersTurn = 2;
+        }
+        else {
+            this.playersTurn = 1;
+        }
+        roundsCount++;
+    }
+
+    function getRound() {
+
+        return roundsCount;
+    }
+
+    return {playersTurn, nextTurn, getRound };
+}
 const demoBoard = createGameBoard();
 const player1 = createPlayer("August", "X");
+const player2 = createPlayer("Carl", "X");
+const gameController = createGameLogic();
+/*
 console.log(player1.getName());
+console.log(player2.getName());
 player1.changeName("Bob");
 console.log(player1.getName());
 demoBoard.printBoard();
@@ -69,3 +102,12 @@ demoBoard.placePiece("x", 0,0);
 demoBoard.printBoard();
 
 console.log(player1.askToPlacePiece(1,1, demoBoard));
+*/
+console.log(gameController.playersTurn);
+gameController.nextTurn();
+console.log(gameController.playersTurn);
+gameController.nextTurn();
+console.log(gameController.playersTurn);
+gameController.nextTurn();
+console.log(gameController.playersTurn);
+console.log(gameController.getRound());

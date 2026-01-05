@@ -44,7 +44,7 @@ pieceType = symbol for players, for now unchangeable.
 #### Methods
 
 changeName = allows user to change name of player. For DOM implementation  make the name display a placeholder input.
-askToPlacePiece(x, y) = calls gameBoards placePiece function with the x y values provided plus player code(either 1 or 2). If placePiece is unsuccessful it remains that players turn, otherwise call gameLogic's nextTurn() function.
+askToPlacePiece(pieceType, x, y) = calls gameBoards placePiece function with the x y values provided plus player code(either 1 or 2). If placePiece is unsuccessful it remains that players turn, otherwise call gameLogic's nextTurn() function.
 
 ### gameLogic object
 
@@ -54,13 +54,14 @@ The gameLogic object will contain the following
 
 playersTurn = integer value of 1 or 2, reflective of 2 players.
 winner = null by default, changed by checkForEndOfGame to player.name of winning player.
-roundsCount = number of rounds that have occured
+roundsCount = number of rounds that have occured, starts at 1
 #### Methods
 
 1. checkForEndOfGame: check each row, each column, and spots 1-5-9 and 3-5-7, if any of them add up to 3 of one piece, set winner equal to the winning player name. If the total number of pieces on the board equals 9 and the win condition hasn't been met, it's a tie.
-2. nextTurn(): toggle playersTurn attribute.
-3. playTurn(playersTurn(), x, y): based on which players turn it is, call that players askToPlacePiece() method until it is successful. Than call getBoard() method and checkForEndOfGame method, if it returns false call nextTurn(), if it returns true call endGame() method.
+2. nextTurn(): toggle playersTurn attribute. Then increcement roundsCount.
+3. playTurn(playersTurn(), x, y): based on which players turn it is, call that players askToPlacePiece() method until it is successful. Then call getBoard() method and checkForEndOfGame method, if it returns false call nextTurn(), if it returns true call endGame() method.
 4. endGame(): display gameLogic.winner.
+5. playGame(): while winner is null, call playTurn method, 
 
 ### displayController object
 
