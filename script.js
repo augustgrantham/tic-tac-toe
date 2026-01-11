@@ -72,7 +72,15 @@ function createGameLogic() {
 
     function checkForEndOfGame() {
         const currentBoard = gameBoard.getBoardArray();
-      
+        //check number of pieces
+        let pieceCount = 0;
+        for(row of currentBoard) {
+            for(piece of row) {
+                if(piece != " ") {
+                pieceCount++;
+            }
+            }
+        }
         //check rows
         for(let rows = 0; rows < 3; rows++) {
             let x = 0;
@@ -86,20 +94,67 @@ function createGameLogic() {
                 }
             }
             if(x == 3) {
-                console.log("yup");
+                console.log("Row win");
                 winner = "Player1";
                 return 1;
             }
             else if(o == 3) {
-                console.log("oops");
+                console.log("Row win");
                 winner = "Player2";
                 return 1;
             }
-            else {
-                return 0;
-            }
-
         }
+        //check columns
+        for(let cols = 0; cols < 3; cols++) {
+            let x = 0;
+            let o = 0;
+            for(let rows = 0; rows < 3; rows++) {
+                if(currentBoard[rows][cols] == "X") {
+                    x++;
+                }
+                else if(currentBoard[rows][cols] == "O"){
+                    o++;
+                }
+            }
+            if(x == 3) {
+                winner = "Player1";
+                return 1;
+            }
+            else if(o == 3) {
+                winner = "Player2";
+                return 1;
+            }
+            
+        }
+        //check diagonals
+        //top left to bottom right
+        if(currentBoard[0][0] == currentBoard[1][1] && currentBoard[0][0] == currentBoard[2][2]) {
+            if(currentBoard[0][0] == "X") {
+                winner = "Player1";
+                return 1;
+            }
+            else {
+                winner = "Player2";
+                return 1;
+            }
+        }
+        //top right to bottom left
+        if(currentBoard[0][2] == currentBoard[1][1] && currentBoard[0][2] == currentBoard[2][0]) {
+            if(currentBoard[0][2] == "X") {
+                winner = "Player1";
+                return 1;
+            }
+            else {
+                winner = "Player2";
+                return 1;
+            }
+        }
+        //check for tie
+        if(pieceCount == 9) {
+                console.log("tie!");
+                winner = "Tie";
+                return 1;
+            }
     }
     function nextTurn() {
         if(playersTurn == 1) {
@@ -158,15 +213,23 @@ console.log(gameController.playersTurn);
 console.log(gameController.getRound());
 */
 gameBoard.printBoard();
-gameController.playTurn(1,0)
+gameController.playTurn(0,1)
+gameBoard.printBoard();
+gameController.playTurn(0,0)
 gameBoard.printBoard();
 gameController.playTurn(2,2)
 gameBoard.printBoard();
 gameController.playTurn(1,1)
 gameBoard.printBoard();
-gameController.playTurn(0,2)
+gameController.playTurn(1,0)
 gameBoard.printBoard();
 gameController.playTurn(1,2)
+gameBoard.printBoard();
+gameController.playTurn(0,2)
+gameBoard.printBoard();
+gameController.playTurn(2,0)
+gameBoard.printBoard();
+gameController.playTurn(2,1)
 gameBoard.printBoard();
 console.log(gameController.getRound());
 if(gameController.checkForEndOfGame()) {
