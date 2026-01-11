@@ -1,5 +1,5 @@
 //object factories
-function createGameBoard () {
+const gameBoard = (function () {
     //attributes
     let board = [
         [" ", " ", " "],
@@ -24,7 +24,7 @@ function createGameBoard () {
         return stringBoard;
     };
     function printBoard() {
-        console.log(demoBoard.getBoard());
+        console.log(this.getBoard());
     }
     function placePiece(piece, x, y) {
         if(board[x][y] == " ") {
@@ -36,7 +36,7 @@ function createGameBoard () {
         }
     }
     return {getBoard, printBoard, placePiece};
-}
+})();
 
 function createPlayer (playerName, playersPieceType) {
     //attributes
@@ -67,16 +67,12 @@ function createGameLogic() {
 
     //methods 
 
-    function checkForEndOfGame() {
-        let test = 3;
-    }
-
     function nextTurn() {
-        if(this.playersTurn == 1) {
-            this.playersTurn = 2;
+        if(playersTurn == 1) {
+            playersTurn = 2;
         }
         else {
-            this.playersTurn = 1;
+            playersTurn = 1;
         }
         roundsCount++;
     }
@@ -86,23 +82,36 @@ function createGameLogic() {
         return roundsCount;
     }
 
-    return {playersTurn, nextTurn, getRound };
+    function playTurn(x,y) {
+        if (playersTurn == 1) {
+            if(player1.askToPlacePiece(x,y,gameBoard)) {
+                nextTurn();
+            }
+        }
+        else {
+            if(player2.askToPlacePiece(x,y,gameBoard)) {
+                nextTurn();
+            }
+        }
+    }
+
+    return { nextTurn, getRound, playTurn };
 }
-const demoBoard = createGameBoard();
+
 const player1 = createPlayer("August", "X");
-const player2 = createPlayer("Carl", "X");
+const player2 = createPlayer("Carl", "O");
 const gameController = createGameLogic();
 /*
 console.log(player1.getName());
 console.log(player2.getName());
 player1.changeName("Bob");
 console.log(player1.getName());
-demoBoard.printBoard();
-demoBoard.placePiece("x", 0,0);
-demoBoard.printBoard();
+gameBoard.printBoard();
+gameBoard.placePiece("x", 0,0);
+gameBoard.printBoard();
 
-console.log(player1.askToPlacePiece(1,1, demoBoard));
-*/
+console.log(player1.askToPlacePiece(1,1, gameBoard));
+
 console.log(gameController.playersTurn);
 gameController.nextTurn();
 console.log(gameController.playersTurn);
@@ -111,3 +120,17 @@ console.log(gameController.playersTurn);
 gameController.nextTurn();
 console.log(gameController.playersTurn);
 console.log(gameController.getRound());
+*/
+gameBoard.printBoard();
+gameController.playTurn(1,2)
+gameBoard.printBoard();
+gameController.playTurn(0,1)
+gameBoard.printBoard();
+gameController.playTurn(2,2)
+gameBoard.printBoard();
+gameController.playTurn(0,2)
+gameBoard.printBoard();
+gameController.playTurn(1,1)
+gameBoard.printBoard();
+gameController.playTurn(0,0)
+gameBoard.printBoard();
