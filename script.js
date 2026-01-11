@@ -26,19 +26,23 @@ const gameBoard = (function () {
     function getBoardArray() {
         return board;
     }
+    function getPiecesPlaced() {
+        return piecesPlaced;
+    }
     function printBoard() {
-        console.log(this.getBoard());
+        console.log(gameBoard.getBoard());
     }
     function placePiece(piece, x, y) {
         if(board[x][y] == " ") {
             board[x][y] = piece;
+            piecesPlaced++;
             return 1;
         }
         else {
             return 0;
         }
     }
-    return {getBoard, printBoard, placePiece, getBoardArray};
+    return {getBoard, printBoard, placePiece, getBoardArray, getPiecesPlaced};
 })();
 
 function createPlayer (playerName, playersPieceType) {
@@ -72,15 +76,6 @@ function createGameLogic() {
 
     function checkForEndOfGame() {
         const currentBoard = gameBoard.getBoardArray();
-        //check number of pieces
-        let pieceCount = 0;
-        for(row of currentBoard) {
-            for(piece of row) {
-                if(piece != " ") {
-                pieceCount++;
-            }
-            }
-        }
         //check rows
         for(let rows = 0; rows < 3; rows++) {
             let x = 0;
@@ -150,7 +145,7 @@ function createGameLogic() {
             }
         }
         //check for tie
-        if(pieceCount == 9) {
+        if(gameBoard.getPiecesPlaced() == 9) {
                 console.log("tie!");
                 winner = "Tie";
                 return 1;
@@ -192,26 +187,16 @@ function createGameLogic() {
 const player1 = createPlayer("August", "X");
 const player2 = createPlayer("Carl", "O");
 const gameController = createGameLogic();
+
+//html element query
+const output = document.querySelector(".feed");
+const firstPlayerName = document.querySelector(".player1");
+const secondPlayerName = document.querySelector(".player2");
+
+output.textContent += "I work!";
+output.textContent += firstPlayer.value;
+//console game test
 /*
-console.log(player1.getName());
-console.log(player2.getName());
-player1.changeName("Bob");
-console.log(player1.getName());
-gameBoard.printBoard();
-gameBoard.placePiece("x", 0,0);
-gameBoard.printBoard();
-
-console.log(player1.askToPlacePiece(1,1, gameBoard));
-
-console.log(gameController.playersTurn);
-gameController.nextTurn();
-console.log(gameController.playersTurn);
-gameController.nextTurn();
-console.log(gameController.playersTurn);
-gameController.nextTurn();
-console.log(gameController.playersTurn);
-console.log(gameController.getRound());
-*/
 gameBoard.printBoard();
 gameController.playTurn(0,1)
 gameBoard.printBoard();
@@ -235,4 +220,4 @@ console.log(gameController.getRound());
 if(gameController.checkForEndOfGame()) {
     console.log(gameController.getWinner());
 }
-    
+*/    
