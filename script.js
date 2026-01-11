@@ -23,6 +23,9 @@ const gameBoard = (function () {
         }
         return stringBoard;
     };
+    function getBoardArray() {
+        return board;
+    }
     function printBoard() {
         console.log(this.getBoard());
     }
@@ -35,7 +38,7 @@ const gameBoard = (function () {
             return 0;
         }
     }
-    return {getBoard, printBoard, placePiece};
+    return {getBoard, printBoard, placePiece, getBoardArray};
 })();
 
 function createPlayer (playerName, playersPieceType) {
@@ -67,6 +70,37 @@ function createGameLogic() {
 
     //methods 
 
+    function checkForEndOfGame() {
+        const currentBoard = gameBoard.getBoardArray();
+      
+        //check rows
+        for(let rows = 0; rows < 3; rows++) {
+            let x = 0;
+            let o = 0;
+            for(let cols = 0; cols < 3; cols++) {
+                if(currentBoard[rows][cols] == "X") {
+                    x++;
+                }
+                else if(currentBoard[rows][cols] == "O"){
+                    o++;
+                }
+            }
+            if(x == 3) {
+                console.log("yup");
+                winner = "Player1";
+                return 1;
+            }
+            else if(o == 3) {
+                console.log("oops");
+                winner = "Player2";
+                return 1;
+            }
+            else {
+                return 0;
+            }
+
+        }
+    }
     function nextTurn() {
         if(playersTurn == 1) {
             playersTurn = 2;
@@ -94,8 +128,10 @@ function createGameLogic() {
             }
         }
     }
-
-    return { nextTurn, getRound, playTurn };
+    function getWinner() {
+        return winner;
+    }
+    return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner };
 }
 
 const player1 = createPlayer("August", "X");
@@ -122,15 +158,18 @@ console.log(gameController.playersTurn);
 console.log(gameController.getRound());
 */
 gameBoard.printBoard();
-gameController.playTurn(1,2)
-gameBoard.printBoard();
-gameController.playTurn(0,1)
+gameController.playTurn(1,0)
 gameBoard.printBoard();
 gameController.playTurn(2,2)
 gameBoard.printBoard();
-gameController.playTurn(0,2)
-gameBoard.printBoard();
 gameController.playTurn(1,1)
 gameBoard.printBoard();
-gameController.playTurn(0,0)
+gameController.playTurn(0,2)
 gameBoard.printBoard();
+gameController.playTurn(1,2)
+gameBoard.printBoard();
+console.log(gameController.getRound());
+if(gameController.checkForEndOfGame()) {
+    console.log(gameController.getWinner());
+}
+    
