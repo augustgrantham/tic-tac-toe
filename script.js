@@ -90,12 +90,12 @@ function createGameLogic() {
             }
             if(x == 3) {
                 console.log("Row win");
-                winner = "Player1";
+                winner = player1.getName();
                 return 1;
             }
             else if(o == 3) {
                 console.log("Row win");
-                winner = "Player2";
+                winner = player2.getName();
                 return 1;
             }
         }
@@ -112,11 +112,11 @@ function createGameLogic() {
                 }
             }
             if(x == 3) {
-                winner = "Player1";
+                winner = player1.getName();
                 return 1;
             }
             else if(o == 3) {
-                winner = "Player2";
+                winner = player2.getName();
                 return 1;
             }
             
@@ -125,22 +125,23 @@ function createGameLogic() {
         //top left to bottom right
         if(currentBoard[0][0] == currentBoard[1][1] && currentBoard[0][0] == currentBoard[2][2]) {
             if(currentBoard[0][0] == "X") {
-                winner = "Player1";
+                winner = player1.getName();
                 return 1;
             }
             else {
-                winner = "Player2";
+                winner = player2.getName();
                 return 1;
             }
         }
         //top right to bottom left
         if(currentBoard[0][2] == currentBoard[1][1] && currentBoard[0][2] == currentBoard[2][0]) {
             if(currentBoard[0][2] == "X") {
-                winner = "Player1";
+                winner = player1.getName();
                 return 1;
             }
-            else {
-                winner = "Player2";
+            else if(currentBoard[0][2] == "O"){
+                winner = player2.getName();
+                output.textContent += "I always trigger";
                 return 1;
             }
         }
@@ -150,6 +151,7 @@ function createGameLogic() {
                 winner = "Tie";
                 return 1;
             }
+        return 0;
     }
     function nextTurn() {
         if(playersTurn == 1) {
@@ -170,18 +172,25 @@ function createGameLogic() {
         if (playersTurn == 1) {
             if(player1.askToPlacePiece(x,y,gameBoard)) {
                 nextTurn();
+                return 1;
             }
         }
         else {
             if(player2.askToPlacePiece(x,y,gameBoard)) {
                 nextTurn();
+                return 1;
             }
         }
+        
+        return 0;
     }
     function getWinner() {
         return winner;
     }
-    return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner };
+    function getCurrentPlayer() {
+        return playersTurn;
+    }
+    return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner, getCurrentPlayer };
 }
 
 const player1 = createPlayer("August", "X");
@@ -201,10 +210,52 @@ firstPlayerName.addEventListener("input", (event) => {
         firstPlayerName = "Player 1";
     }
     player1.changeName(firstPlayerName.value);
-})
+});
 secondPlayerName.addEventListener("input", (event) => { 
     if (secondPlayerName == "") {
         secondPlayerName = "Player 2";
     }
     player2.changeName(secondPlayerName.value);
-})
+});
+
+//squares retrieval
+const squares = document.querySelectorAll("div.box");
+//coordinate seletion and event listening
+squares.forEach((square) => {
+    let x = Number(square.classList[1]);
+    let y = Number(square.classList[2]);
+    //correct y if there isn't one placed due to classList grabbing both values for x if its the same number
+    if(isNaN(y)) {
+        y = x;
+    }
+    square.addEventListener("click", () => {
+        if(runGame(x,y)) {
+            
+            if(gameController.getCurrentPlayer() == 1) {
+                square.textContent = "O";
+            }
+            else {
+                square.textContent = "X";
+            }
+
+            if(gameController.checkForEndOfGame()) {
+                runGame();
+            }
+        }
+    });
+});
+
+//game loop
+function runGame(x,y) {
+    if(gameController.getWinner() == null) {
+        return gameController.playTurn(x,y);
+    }
+    else {
+        if(gameController.getWinner() == "Tie") {
+            output.textContent += `\n It's a tie!`;
+        }
+        else {
+            output.textContent += "The winner is " + gameController.getWinner() + "!";
+        }
+    }
+}
