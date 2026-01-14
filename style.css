@@ -51,6 +51,9 @@ body {
   height: 100px;
   display: grid;
   place-content: center;
+  font-size: larger;
+  font-weight: 900;
+  font-family:monospace;
 }
 
 .player {

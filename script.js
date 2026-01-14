@@ -123,13 +123,14 @@ function createGameLogic() {
         }
         //check diagonals
         //top left to bottom right
-        if(currentBoard[0][0] == currentBoard[1][1] && currentBoard[0][0] == currentBoard[2][2]) {
+        if(currentBoard[0][0] != " " && currentBoard[0][0] == currentBoard[1][1] && currentBoard[0][0] == currentBoard[2][2]) {
             if(currentBoard[0][0] == "X") {
                 winner = player1.getName();
                 return 1;
             }
             else {
                 winner = player2.getName();
+                console.log("horizontal win");
                 return 1;
             }
         }
@@ -193,8 +194,8 @@ function createGameLogic() {
     return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner, getCurrentPlayer };
 }
 
-const player1 = createPlayer("August", "X");
-const player2 = createPlayer("Carl", "O");
+const player1 = createPlayer("Player 1", "X");
+const player2 = createPlayer("Player 2", "O");
 const gameController = createGameLogic();
 
 //html element query
@@ -230,7 +231,7 @@ squares.forEach((square) => {
     }
     square.addEventListener("click", () => {
         if(runGame(x,y)) {
-            
+            console.log(gameBoard.getBoard());
             if(gameController.getCurrentPlayer() == 1) {
                 square.textContent = "O";
             }
