@@ -24,7 +24,7 @@ body {
   background-color: rgb(46, 46, 46);
   font-family: monospace;
   display:grid;
-  grid-template-rows:4fr 1fr;
+  grid-template-rows:4fr 1fr 1fr;
   justify-content: center;
   align-content: center;
 }
@@ -51,7 +51,7 @@ body {
   height: 100px;
   display: grid;
   place-content: center;
-  font-size: larger;
+  font-size: 4em;
   font-weight: 900;
   font-family:monospace;
 }
@@ -74,9 +74,8 @@ body {
   display:flex;
   flex-direction: column;
   justify-content: center;
-  overflow: scroll;
-  width:300px;
-  height: 100px;
+  width:200px;
+  height: 50px;
   border:1px solid white;
   padding:10px;
 }
@@ -84,6 +83,17 @@ body {
 .console p {
   font-size: small;
   
+}
+
+.restart {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.restart input {
+  height: 50px;
+  display:none;
 }
 img, picture, video, canvas, svg {
   display: block;

@@ -1,3 +1,7 @@
+//squares retrieval
+const squares = document.querySelectorAll("div.box");
+//restart button retrieval
+const resetButton = document.querySelector("#restart");
 //object factories
 const gameBoard = (function () {
     //attributes
@@ -12,7 +16,7 @@ const gameBoard = (function () {
 
     function getBoard() {
         //console version
-        stringBoard = "Current Round:\n";
+        stringBoard = "";
         for(let row = 0; row <=2; row++)
         {
             for(let col = 0; col <=2; col++)
@@ -42,7 +46,15 @@ const gameBoard = (function () {
             return 0;
         }
     }
-    return {getBoard, printBoard, placePiece, getBoardArray, getPiecesPlaced};
+    function resetBoard() {
+        board = [
+        [" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]
+    ]; 
+        piecesPlaced = 0;
+    }
+    return {getBoard, printBoard, placePiece, getBoardArray, getPiecesPlaced, resetBoard};
 })();
 
 function createPlayer (playerName, playersPieceType) {
@@ -142,7 +154,6 @@ function createGameLogic() {
             }
             else if(currentBoard[0][2] == "O"){
                 winner = player2.getName();
-                output.textContent += "I always trigger";
                 return 1;
             }
         }
@@ -191,7 +202,17 @@ function createGameLogic() {
     function getCurrentPlayer() {
         return playersTurn;
     }
-    return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner, getCurrentPlayer };
+    function resetGame() {
+        output.textContent = "";
+        playersTurn = 1;
+        winner = null;
+        roundsCount = 1;
+        gameBoard.resetBoard();
+        squares.forEach((square) => {
+            square.textContent = " ";
+        }) 
+    }
+    return { nextTurn, getRound, playTurn, checkForEndOfGame, getWinner, getCurrentPlayer, resetGame };
 }
 
 const player1 = createPlayer("Player 1", "X");
@@ -219,8 +240,7 @@ secondPlayerName.addEventListener("input", (event) => {
     player2.changeName(secondPlayerName.value);
 });
 
-//squares retrieval
-const squares = document.querySelectorAll("div.box");
+
 //coordinate seletion and event listening
 squares.forEach((square) => {
     let x = Number(square.classList[1]);
@@ -231,12 +251,11 @@ squares.forEach((square) => {
     }
     square.addEventListener("click", () => {
         if(runGame(x,y)) {
-            console.log(gameBoard.getBoard());
             if(gameController.getCurrentPlayer() == 1) {
-                square.textContent = "O";
+                square.innerHTML = "o";
             }
             else {
-                square.textContent = "X";
+                square.textContent = "x";
             }
 
             if(gameController.checkForEndOfGame()) {
@@ -252,6 +271,7 @@ function runGame(x,y) {
         return gameController.playTurn(x,y);
     }
     else {
+        resetButton.style.display = "inline";
         if(gameController.getWinner() == "Tie") {
             output.textContent += `\n It's a tie!`;
         }
@@ -260,3 +280,10 @@ function runGame(x,y) {
         }
     }
 }
+
+//reset game event listener
+
+resetButton.addEventListener("click", () => {
+    gameController.resetGame();
+    resetButton.style.display = "none";
+})
