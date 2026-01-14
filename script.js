@@ -189,35 +189,22 @@ const player2 = createPlayer("Carl", "O");
 const gameController = createGameLogic();
 
 //html element query
+// debug / results window
 const output = document.querySelector(".feed");
+// name retrievals
 const firstPlayerName = document.querySelector(".player1");
 const secondPlayerName = document.querySelector(".player2");
 
-output.textContent += "I work!";
-output.textContent += firstPlayer.value;
-//console game test
-/*
-gameBoard.printBoard();
-gameController.playTurn(0,1)
-gameBoard.printBoard();
-gameController.playTurn(0,0)
-gameBoard.printBoard();
-gameController.playTurn(2,2)
-gameBoard.printBoard();
-gameController.playTurn(1,1)
-gameBoard.printBoard();
-gameController.playTurn(1,0)
-gameBoard.printBoard();
-gameController.playTurn(1,2)
-gameBoard.printBoard();
-gameController.playTurn(0,2)
-gameBoard.printBoard();
-gameController.playTurn(2,0)
-gameBoard.printBoard();
-gameController.playTurn(2,1)
-gameBoard.printBoard();
-console.log(gameController.getRound());
-if(gameController.checkForEndOfGame()) {
-    console.log(gameController.getWinner());
-}
-*/    
+//name changing events
+firstPlayerName.addEventListener("input", (event) => { 
+    if (firstPlayerName == "") {
+        firstPlayerName = "Player 1";
+    }
+    player1.changeName(firstPlayerName.value);
+})
+secondPlayerName.addEventListener("input", (event) => { 
+    if (secondPlayerName == "") {
+        secondPlayerName = "Player 2";
+    }
+    player2.changeName(secondPlayerName.value);
+})
